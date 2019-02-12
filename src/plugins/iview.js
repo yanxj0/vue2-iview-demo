@@ -4,6 +4,7 @@ import {
   Sider,
   Menu,
   MenuItem,
+  Message,
   Icon,
   Header,
   Card,
@@ -19,14 +20,21 @@ import {
   FormItem,
   Tree,
   Drawer,
-  Spin
+  Spin,
+  Submenu
 } from "iview";
+
+Message.config({
+  top: 50,
+  duration: 1.5
+});
 
 let variable = {
   Layout,
   Sider,
   Menu,
   MenuItem,
+  Message,
   Icon,
   Header,
   Card,
@@ -42,12 +50,15 @@ let variable = {
   FormItem,
   Tree,
   Drawer,
-  Spin
+  Spin,
+  Submenu
 };
 for (let item in variable) {
   if (variable.hasOwnProperty(item)) {
     Vue.component(item, variable[item]);
   }
 }
+
+Vue.prototype.$Message = Message
 
 export default Vue;

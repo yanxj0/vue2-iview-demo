@@ -1,40 +1,45 @@
 <template>
-  <Form
-    ref="formInline"
-    :model="formInline"
-    :rules="ruleInline"
-  >
-    <FormItem prop="user">
-      <Input
-        type="text"
-        v-model="formInline.user"
-        placeholder="Username"
+  <div class="login">
+    <Card class="login-card">
+      <img src="../assets/logo.png" />
+      <Form
+        ref="formInline"
+        :model="formInline"
+        :rules="ruleInline"
       >
-      <Icon
-        type="ios-person-outline"
-        slot="prepend"
-      ></Icon>
-      </Input>
-    </FormItem>
-    <FormItem prop="password">
-      <Input
-        type="password"
-        v-model="formInline.password"
-        placeholder="Password"
-      >
-      <Icon
-        type="ios-lock-outline"
-        slot="prepend"
-      ></Icon>
-      </Input>
-    </FormItem>
-    <FormItem>
-      <Button
-        type="primary"
-        @click="handleSubmit('formInline')"
-      >Signin</Button>
-    </FormItem>
-  </Form>
+        <FormItem prop="user">
+          <Input
+            type="text"
+            v-model="formInline.user"
+            placeholder="Username"
+          >
+          <Icon
+            type="ios-person-outline"
+            slot="prepend"
+          ></Icon>
+          </Input>
+        </FormItem>
+        <FormItem prop="password">
+          <Input
+            type="password"
+            v-model="formInline.password"
+            placeholder="Password"
+          >
+          <Icon
+            type="ios-lock-outline"
+            slot="prepend"
+          ></Icon>
+          </Input>
+        </FormItem>
+        <FormItem>
+          <Button
+            type="primary"
+            @click="handleSubmit('formInline')"
+          >登陆</Button>
+        </FormItem>
+      </Form>
+    </Card>
+  </div>
 </template>
 <script>
 export default {
@@ -60,8 +65,8 @@ export default {
           },
           {
             type: "string",
-            min: 6,
-            message: "The password length cannot be less than 6 bits",
+            min: 4,
+            message: "The password length cannot be less than 4 bits",
             trigger: "blur"
           }
         ]
@@ -70,14 +75,31 @@ export default {
   },
   methods: {
     handleSubmit(name) {
-      this.$refs[name].validate(valid => {
+      let vm = this;
+      vm.$refs[name].validate(valid => {
         if (valid) {
-          this.$Message.success("Success!");
+          vm.$Message.success("Success!");
+          vm.$store
+            .dispatch("checkLogin")
+            .then(() => vm.$router.push({ path: "/" }));
         } else {
-          this.$Message.error("Fail!");
+          vm.$Message.error("Fail!");
         }
       });
     }
   }
 };
 </script>
+<style lang="less" scoped>
+.login {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .login-card {
+    width: 350px;
+    height: auto;
+  }
+}
+</style>
